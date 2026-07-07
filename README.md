@@ -12,7 +12,8 @@ The main purpose of this project is to understand how network packets travel thr
 
 # Project Screenshots
 
-![Startup](Images/3.png)
+![Startup](Images/1.png)
+![Startup](Images/2.png)
 
 
 
