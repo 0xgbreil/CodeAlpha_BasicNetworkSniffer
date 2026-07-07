@@ -12,11 +12,9 @@ The main purpose of this project is to understand how network packets travel thr
 
 # Project Screenshots
 
-![Startup](Images/1.png)
+![Startup](Images/3.png)
 
-### Packet Capture
 
-![Packet Capture](Images/2.png)
 
 ---
 
