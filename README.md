@@ -11,8 +11,9 @@ The project demonstrates the fundamentals of network packet capturing and analys
 ## Project Screenshots
 
 
-![image 1](images/1.png)
-![image 2](images/2.png)
+![Startup](Images/1.png)
+
+![TCP Packet](Images/2.png)
 
 ---
 
