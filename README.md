@@ -10,21 +10,9 @@ The project demonstrates the fundamentals of network packet capturing and analys
 
 ## Project Screenshots
 
-### Startup
 
-![Startup](screenshots/startup.png)
-
-### TCP Packet
-
-![TCP Packet](screenshots/tcp_packet.png)
-
-### UDP Packet
-
-![UDP Packet](screenshots/udp_packet.png)
-
-### ICMP Packet
-
-![ICMP Packet](screenshots/icmp_packet.png)
+![image 1](images/1.png)
+![image 2](images/2.png)
 
 ---
 
