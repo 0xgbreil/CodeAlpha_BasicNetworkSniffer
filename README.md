@@ -1,5 +1,7 @@
 # Basic Network Sniffer
 
+![Startup](Images/1.png)
+
 ## Description
 
 **Basic Network Sniffer** is a Python-based tool developed as part of my **CodeAlpha Cyber Security Internship**.
@@ -10,10 +12,10 @@ The main purpose of this project is to understand how network packets travel thr
 
 ---
 
-# Project Screenshots
+# Screenshots
 
-![Startup](Images/1.png)
 ![Startup](Images/2.png)
+![Startup](Images/3.png)
 
 
 
