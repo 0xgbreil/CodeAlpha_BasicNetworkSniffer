@@ -4,6 +4,7 @@ from datetime import datetime
 import sys
 from colorama import Fore, Style, init
 import time
+from banner import show_banner
 
 init(autoreset=True)
 
@@ -15,6 +16,8 @@ def get_serv(src_port, dst_port):
             return socket.getservbyport(dst_port)
         except OSError:
             return "Unknown"
+
+
 
 
 def analyzer(PKT):
@@ -32,7 +35,14 @@ def analyzer(PKT):
         print(Fore.WHITE + "=" * 60)
         time.sleep(0.5)
         print(Fore.GREEN + f"Time : {current_time}")
-
+        def get_payload(pkt):
+            if pkt.haslayer(Raw):
+                try:
+                    return pkt[Raw].load.decode("utf-8")
+                except UnicodeDecodeError:
+                    return pkt[Raw].load
+            return "No Payload"
+        
         if PKT.haslayer(ICMP):
             print(Fore.RED + "Protocol            : ICMP")
             print(Fore.CYAN + f"Source IP           : {Fore.WHITE}{src_ip}")
@@ -41,13 +51,7 @@ def analyzer(PKT):
             print(Fore.CYAN + f"Destination MAC     : {Fore.WHITE}{dst_mac}")
             print(Fore.CYAN + f"Packet Size         : {Fore.WHITE}{len(PKT[ICMP])} Bytes")
 
-            if PKT.haslayer(Raw):
-                try:
-                    payload = PKT[Raw].load.decode("utf-8")
-                except UnicodeDecodeError:
-                    payload = PKT[Raw].load
-
-            print(Fore.WHITE + f"Payload:\n{payload}")
+            print(get_payload(PKT))
 
         elif PKT.haslayer(TCP):
 
@@ -65,13 +69,7 @@ def analyzer(PKT):
             print(Fore.CYAN + f"Service             : {Fore.WHITE}{service}")
             print(Fore.CYAN + f"Packet Size         : {Fore.WHITE}{len(PKT[TCP])} Bytes")
 
-            if PKT.haslayer(Raw):
-                try:
-                    payload = PKT[Raw].load.decode("utf-8")
-                except UnicodeDecodeError:
-                    payload = PKT[Raw].load
-
-            print(Fore.WHITE + f"Payload:\n{payload}")
+            print(get_payload(PKT))
 
 
         elif PKT.haslayer(UDP):
@@ -90,21 +88,16 @@ def analyzer(PKT):
             print(Fore.CYAN + f"Service             : {Fore.WHITE}{service}")
             print(Fore.CYAN + f"Packet Size         : {Fore.WHITE}{len(PKT[UDP])} Bytes")
 
-            if PKT.haslayer(Raw):
-                try:
-                    payload = PKT[Raw].load.decode("utf-8")
-                except UnicodeDecodeError:
-                    payload = PKT[Raw].load
-
-            print(Fore.WHITE + f"Payload:\n{payload}")
+            print(get_payload(PKT))
 
     except Exception:
         return
 
 
 print(Fore.GREEN + "=" * 60)
-print(Style.BRIGHT + Fore.GREEN  + "             Basic Network Sniffer")
-print(Fore.CYAN + "                 By 0xgbreil")
+
+
+show_banner()
 print(Fore.GREEN + "=" * 60)
 print(Fore.GREEN + "[+] Initializing...")
 print(Fore.GREEN + "[+] Loading Scapy...")
@@ -142,6 +135,7 @@ try:
 
         if choice == 99:
             print(Fore.RED + "\n[+] Exiting Basic Network Sniffer...")
+            print(Fore.RED + "\n[+] Sniffer stopped successfully.")
             sys.exit()
 
         if choice < 1 or choice > len(interfaces):
@@ -153,7 +147,19 @@ try:
 
     print(Fore.GREEN + f"\n[+] Selected Interface: {Fore.YELLOW}{interface}")
     print(Fore.GREEN + f"[+] Starting packet capture on interface: {Fore.YELLOW}{interface}\n")
-    sniff(iface=interface, prn=analyzer, store=False)    
+    sniffer = AsyncSniffer(
+        iface=interface,
+        prn=analyzer,
+        store=False
+    )
 
-finally:
-    print(Fore.RED +"\n[+] Sniffer stopped successfully.")
+    sniffer.start() 
+
+    while True:
+        time.sleep(1)
+
+except KeyboardInterrupt:
+    print(Fore.RED + "\n[+] Stopping sniffer...")
+    sniffer.stop()
+    print(Fore.RED + "[+] Sniffer stopped successfully.")
+    sys.exit()
