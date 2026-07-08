@@ -102,22 +102,7 @@ Finally, run the terminal or command prompt as **Administrator** before starting
 
 ---
 
-# Project Structure
 
-```text
-CodeAlpha_BasicNetworkSniffer
-│
-├── Images/
-│   ├── 1.png
-│   └── 2.png
-│
-├── sniffer.py
-├── requirements.txt
-├── README.md
-└── LICENSE
-```
-
----
 
 # Future Improvements
 
